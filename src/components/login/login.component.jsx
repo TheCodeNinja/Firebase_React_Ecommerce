@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { signInWithGoogle } from '../../firebase/firebase.utils';
 
 import FormInput from '../form-input/form-input.component';
 import CustomButton from '../custom-button/custom-button.component';
@@ -30,7 +31,7 @@ class Login extends Component {
   render() {
     return (
       <div className="login">
-        <h2>I already have an account</h2>
+        <h2 className="title">I already have an account</h2>
         <span>Login with your email and password</span>
 
         <form onSubmit={this.handleSubmit}>
@@ -51,6 +52,9 @@ class Login extends Component {
             required 
           />      
           <CustomButton type='submit'>Login</CustomButton>
+          <CustomButton onClick={signInWithGoogle}>
+            Login with Google
+          </CustomButton>
         </form>
       </div>
     );
