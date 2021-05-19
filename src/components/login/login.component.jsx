@@ -50,11 +50,13 @@ class Login extends Component {
             name="password" 
             value={this.state.password}
             required 
-          />      
-          <CustomButton type='submit'>Login</CustomButton>
-          <CustomButton onClick={signInWithGoogle}>
-            Login with Google
-          </CustomButton>
+          />
+          <div className="buttons">
+            <CustomButton type='submit'>Login</CustomButton>
+            <CustomButton onClick={signInWithGoogle} isGoogleSignIn>
+              Login with Google
+            </CustomButton>
+          </div>
         </form>
       </div>
     );
