@@ -1,0 +1,55 @@
+$sub-color: grey;
+$main-color: black;
+
+@mixin moveUpAndSmaller {
+  top: -14px;
+  font-size: 12px;
+  color: $main-color;
+}
+
+.form-group { // form input container
+  position: relative;
+  margin: 45px 0;
+
+  .form-input {
+    color: $sub-color;
+    font-size: 18px;
+    padding: 10px 10px 10px 5px;
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    border: none;
+    border-bottom: 1px solid $sub-color;
+    margin: 25px 0;
+
+    // when the form input is focused
+    &:focus {
+      outline: none;
+    }
+
+    // when the form input is focused, override the label styles
+    &:focus ~ .label {
+      @include moveUpAndSmaller();
+    }
+  }
+
+  input[type='password'] {
+    letter-spacing: 0.3em;
+  }
+
+  .label {
+    color: $sub-color;
+    font-size: 16px;
+    font-weight: normal;
+    pointer-events: none;
+    position: absolute;
+    left: 5px;
+    top: 10px;
+    transition: 300ms ease all;
+
+    // when the form input has value, show this style for label
+    &.move-up {
+      @include moveUpAndSmaller();
+    }
+  }
+}
