@@ -1,0 +1,44 @@
+.homepage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 80px;
+}
+
+// ** flex-container
+// *****************
+
+.directory-menu {
+  width: 100%;
+  display: flex; // flex-direction is row by default
+  flex-wrap: wrap;
+  justify-content: space-between;
+  border: 1px solid red;
+}
+
+// ** flex-item
+// ************
+
+.menu-item {
+  min-width: 30%;
+  height: 240px;
+  border: 1px solid black;
+  flex: 1 1 auto; // make this flex item responsive with the ability to streah and shrink
+
+  // ** this flex-item also a flex-container
+  // ***************************************
+  display: flex;
+  align-items: center; // cross-axis
+  justify-content: center; // main-axis
+  
+  margin: 0 7.5px 15px; // T, L/R, B
+
+  // &:first-child {
+  //   margin-right: 7.5px;
+  // }
+
+  // &:last-child {
+  //   margin-left: 7.5px;
+  // }
+
+}
