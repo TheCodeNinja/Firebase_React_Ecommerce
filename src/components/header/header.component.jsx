@@ -1,12 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import { ReactComponent as Logo } from '../../assets/crown.svg';
 import { auth } from '../../firebase/firebase.utils';
 
 import './header.styles.scss';
 
-const Header = ({ currentUser }) => (
+const Header = ({ currentUser }) => ( // currentUser comes from redux
   <div className="navbar">
     <Link className="navbar-logo" to='/'>
       <Logo className='logo' />
@@ -30,4 +31,10 @@ const Header = ({ currentUser }) => (
   </div>
 );
 
-export default Header; 
+const mapStateToProps = state => ({
+  // (this component props): (redux state)
+  currentUser: state.user.currentUser
+});
+
+// connect(): let this component get access to the redux store 
+export default connect(mapStateToProps)(Header); 
