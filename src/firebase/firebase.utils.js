@@ -29,5 +29,38 @@ const provider = new firebase.auth.GoogleAuthProvider();
 provider.setCustomParameters({ prompt: 'select_account' });
 export const signInWithGoogle = () => auth.signInWithPopup(provider);
 
+
+// create user document in firestore
+// ---
+export const storeUserToFirestore = async (fbAuthUser, extraData) => {
+  if (!fbAuthUser) return;
+  const userDocRef = firestore.doc(`users/${fbAuthUser.uid}`);
+  const userDocSnapShot = await userDocRef.get();
+
+  // A DocumentSnapshot contains data read from a document in your 
+  // Firestore database. The data can be extracted with .data() or 
+  // .get(<field>) to get a specific field.
+
+  // For a DocumentSnapshot that points to a non-existing document, 
+  // any data access will return 'undefined'. You can use the exists 
+  // property to explicitly verify a document's existence.
+  if (!userDocSnapShot.exists) {
+    const { displayName, email } = fbAuthUser;
+    const createdAt = new Date();
+    try {
+      // create the snapshot in firestore
+      await userDocRef.set({
+        displayName,
+        email,
+        createdAt,
+        ...extraData
+      });
+    } catch (err) {
+      console.log('error creating user', err.message);
+    }
+  }
+  return userDocRef;
+}
+
 // firebase module
 export default firebase;

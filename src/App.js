@@ -5,7 +5,7 @@ import { Switch, Route } from 'react-router-dom';
 import ShopPage from './pages/shop/shoppage.component';
 import Header from './components/header/header.component';
 import LoginSignupPage from './pages/login-signup/login-signup.component';
-import { auth } from './firebase/firebase.utils';
+import { auth, storeUserToFirestore } from './firebase/firebase.utils';
 
 import './App.css';
 
@@ -21,11 +21,28 @@ class App extends Component {
   unsubscribeFromAuth = null;
 
   componentDidMount() {
-    // observe the user change
-    // return the unsubscribe function for the observer
-    this.unsubscribeFromAuth = auth.onAuthStateChanged(user => {
-      this.setState({ currentUser: user });
-      // console.log(user);
+    // Adds an observer for changes to the user's sign-in state.
+    // Prior to 4.0.0, this triggered the observer when users were signed in, 
+    // signed out, or when the user's ID token changed in situations such as 
+    // token expiry or password change. After 4.0.0, the observer is only 
+    // triggered on sign-in or sign-out.
+    this.unsubscribeFromAuth = auth.onAuthStateChanged(async fbAuthUser => {
+      if (fbAuthUser) {
+        const userDocRef = await storeUserToFirestore(fbAuthUser);
+        userDocRef.onSnapshot(userDocSnapShot => {
+          // set current user
+          this.setState({
+            currentUser: {
+              id: userDocSnapShot.id,
+              ...userDocSnapShot.data()
+            }
+          }, () => {
+            // console.log(this.state);
+          });
+        });
+      } else {
+        this.setState({ currentUser: fbAuthUser });
+      }
     });
   }
 
