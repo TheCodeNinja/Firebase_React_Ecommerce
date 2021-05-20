@@ -9,7 +9,7 @@ import CartIcon from '../cart-icon/cart-icon.component';
 import './header.styles.scss';
 import CartDropdown from '../cart-dropdown/cart-dropdown.component';
 
-const Header = ({ currentUser }) => ( // currentUser comes from redux
+const Header = ({ currentUser, hidden }) => ( // currentUser comes from redux
   <div className="navbar">
     <Link className="navbar-logo" to='/'>
       <Logo className='logo' />
@@ -31,13 +31,14 @@ const Header = ({ currentUser }) => ( // currentUser comes from redux
       }
       <CartIcon />
     </div>
-    <CartDropdown />
+    { hidden ? null : <CartDropdown /> }
   </div>
 );
 
 const mapStateToProps = state => ({
   // (this component props): (redux state)
-  currentUser: state.user.currentUser
+  currentUser: state.user.currentUser,
+  hidden: state.cart.hidden,
 });
 
 // connect(): let this component get access to the redux store 
