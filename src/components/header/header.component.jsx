@@ -35,10 +35,9 @@ const Header = ({ currentUser, hidden }) => ( // currentUser comes from redux
   </div>
 );
 
-const mapStateToProps = state => ({
-  // (this component props): (redux state)
-  currentUser: state.user.currentUser,
-  hidden: state.cart.hidden,
+const mapStateToProps = ({ user: {currentUser}, cart: {hidden} }) => ({
+  currentUser,
+  hidden
 });
 
 // connect(): let this component get access to the redux store 
