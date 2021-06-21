@@ -1,4 +1,5 @@
 import CartActionTypes from './cart.types';
+import { handleCartProductQuantity } from './cart.util';
 
 const INITIAL_STATE = {
   hidden: true,
@@ -17,7 +18,7 @@ const cartReducer = (state = INITIAL_STATE, action) => {
     case CartActionTypes.ADD_PRODUCT_TO_CART:
       return {
         ...state,
-        cartProducts: [...state.cartProducts, action.payload]
+        cartProducts: handleCartProductQuantity(state.cartProducts, action.payload)
       };
     
     default:
